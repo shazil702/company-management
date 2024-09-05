@@ -1,12 +1,12 @@
 from pathlib import Path
 from datetime import timedelta
-
+from decouple import config
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-dt9umln7ly^6j&k*r&n*#f7bl(1ile!j=7g%r%5ugg8i)9&*pz'
+SECRET_KEY = config('SECRET_KEY')
 
-DEBUG = True
+DEBUG = config('DEBUG', cast=bool)
 
 ALLOWED_HOSTS = []
 
@@ -56,8 +56,12 @@ WSGI_APPLICATION = 'companyManagement.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+       'ENGINE': 'django.db.backends.postgresql',
+       'NAME': config('DB_Name'),
+       'USER': config('DB_User'),
+       'PASSWORD': config('DB_Password'),
+       'HOST': config('DB_Host'),
+       'PORT':'5432'
     }
 }
 
