@@ -36,43 +36,37 @@ class LoginView(APIView):
         user = authenticate(request, username=email, password=password)
         if user is not None:
             refresh = RefreshToken.for_user(user)
+            access_token = str(refresh.access_token)
+            refresh_token = str(refresh)
             try:
                 if user.is_superuser:
-                    admin_access_token = str(refresh.access_token)
-                    admin_refresh_token = str(refresh)
                     return Response({
                         'message': 'Admin authentication successful',
-                        'admin_access_token': admin_access_token,
-                        'admin_refresh_token': admin_refresh_token
+                        'access_token': access_token,
+                        'refresh_token': refresh_token,
+                        'role': 'admin'
                     }, status=status.HTTP_200_OK)
-                
                 elif user.is_hr:
-                    hr_access_token = str(refresh.access_token)
-                    hr_refresh_token = str(refresh)
                     return Response({
                         'message': 'HR authentication successful',
-                        'hr_access_token': hr_access_token,
-                        'hr_refresh_token': hr_refresh_token
+                        'access_token': access_token,
+                        'refresh_token': refresh_token,
+                        'role': 'hr'
                     }, status=status.HTTP_200_OK)
-                
                 elif user.is_manager:
-                    manager_access_token = str(refresh.access_token)
-                    manager_refresh_token = str(refresh)
                     return Response({
                         'message': 'Manager authentication successful',
-                        'manager_access_token': manager_access_token,
-                        'manager_refresh_token': manager_refresh_token
+                        'access_token': access_token,
+                        'refresh_token': refresh_token,
+                        'role':'manager'
                     }, status=status.HTTP_200_OK)
-                
                 else:
-                    employee_access_token = str(refresh.access_token)
-                    employee_refresh_token = str(refresh)
                     return Response({
                         'message': 'Employee authentication successful',
-                        'employee_access_token': employee_access_token,
-                        'employee_refresh_token': employee_refresh_token
+                        'access_token': access_token,
+                        'refresh_token': refresh_token,
+                        'role': 'employee'
                     }, status=status.HTTP_200_OK)
-                
             except Exception as e:
                 return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
         else:
