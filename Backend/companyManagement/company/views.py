@@ -1,3 +1,10 @@
-from django.shortcuts import render
+from rest_framework.views import APIView
+from .models import Company
+from .serializer import CompanySerializer
+from rest_framework.response import Response
 
-# Create your views here.
+class CompanyView(APIView):
+    def get(self, request):
+        companies = Company.objects.all()
+        serializer = CompanySerializer(companies, many=True)
+        return Response(serializer.data)

@@ -6,3 +6,7 @@ class Company(models.Model):
     companyEmail = models.EmailField()
     companyPhone = PhoneNumberField()
     conpanyAddress = models.TextField()
+    companyLogo = models.ImageField(upload_to='images', blank=True, null=True)
+
+    def __str__(self):
+        return self.companyName
