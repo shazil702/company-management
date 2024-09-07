@@ -1,13 +1,34 @@
+import { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
 const Login = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate();
+  const login = async e => {
+    e.preventDefault();
+    const user = { email:email,
+                   password: password};
+                   try {
+                     const response = await axios.post('http://127.0.0.1:8000/authentication/login/', user);
+                     console.log(response.data);
+                     localStorage.clear();
+                     localStorage.setItem('access_token', response.data.access_token);
+                     localStorage.setItem('refresh_token', response.data.refresh_token);
+                     localStorage.setItem('role', response.data.role);
+                     if (response.data.role === 'admin') {
+                       navigate('/admin');
+                     } 
+                   } catch (error) {
+                     console.log(error);
+                   }
+  };
   return (
     <div className="min-h-screen bg-gray-100 flex justify-center items-center">
       <div className="w-full max-w-md bg-white rounded-lg shadow-lg p-8">
-        {/* Header */}
         <h1 className="text-3xl font-semibold text-center text-393053 mb-6">Login</h1>
-
-        {/* Form */}
-        <form>
-          {/* Email Input */}
+        <form onSubmit={login}>
           <div className="mb-4">
             <label className="block text-18122B text-sm font-bold mb-2" htmlFor="email">
               Email
@@ -17,10 +38,11 @@ const Login = () => {
               id="email"
               type="email"
               placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
             />
           </div>
-
-          {/* Password Input */}
           <div className="mb-6">
             <label className="block text-18122B text-sm font-bold mb-2" htmlFor="password">
               Password
@@ -30,10 +52,11 @@ const Login = () => {
               id="password"
               type="password"
               placeholder="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
             />
           </div>
-
-          {/* Sign In Button */}
           <div className="mb-4">
             <button
               type="submit"
@@ -42,8 +65,6 @@ const Login = () => {
               Sign In
             </button>
           </div>
-
-          {/* Forgotten Password Link */}
           <div className="text-center">
             <a href="#" className="text-635985 hover:underline">
               Forgotten password?
