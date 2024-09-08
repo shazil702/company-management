@@ -10,9 +10,7 @@ class User(AbstractUser):
     is_manager = models.BooleanField(default=False)
     is_employee = models.BooleanField(default=True)
     phone = PhoneNumberField(null=False, blank=False, unique=True)
-    groups = models.ManyToManyField(Group, related_name='custom_users_group', blank=True, related_query_name='user')
-    user_permissions = models.ManyToManyField(Permission, related_name='custom_user_permissions', blank=True, related_query_name='user_permission')
-
+    
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
 
