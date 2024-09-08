@@ -19,6 +19,7 @@ const AddCompany = () => {
     try{
       const response = await axios.post('http://127.0.0.1:8000/company/allCompanies', formData,{
         headers:{
+          'Authorization': `Bearer ${localStorage.getItem('access_token')}`,
           'Content-Type': 'multipart/form-data',
         },
       });

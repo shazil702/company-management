@@ -19,6 +19,9 @@ const Login = () => {
                      localStorage.setItem('role', response.data.role);
                      if (response.data.role === 'admin') {
                        navigate('/admin');
+                     }
+                     else if (response.data.role === 'hr') {
+                       navigate('/hr');
                      } 
                    } catch (error) {
                      console.log(error);

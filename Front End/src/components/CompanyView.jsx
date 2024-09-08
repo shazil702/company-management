@@ -10,7 +10,11 @@ const CompanyView = () => {
   useEffect(()=>{
     const fetchdata = async ()=>{
       try {
-        const response = await axios.get('http://127.0.0.1:8000/company/allCompanies');
+        const response = await axios.get('http://127.0.0.1:8000/company/allCompanies',{
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+          },
+        });
         setCompany(response.data);
       } catch (error) {
         console.log(error);
@@ -50,7 +54,7 @@ const CompanyView = () => {
               <img src={`http://127.0.0.1:8000${company.companyLogo}`} alt="Employee" className="object-cover w-full h-full" />
             </div>
             <h3 className="text-white text-lg font-semibold">{company.companyName}</h3>
-            <p className="text-green-500 mt-2">{company.conpanyAddress}</p>
+            <p className="text-green-500 mt-2">{company.companyAddress}</p>
           </div>
         ))}
       </div>
