@@ -2,9 +2,11 @@ import { useState } from 'react';
 import adminImage from '../assets/images/admin.jpeg'
 import { useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const CompanyView = () => {
   const [company, setCompany] = useState([]);
+  const navigate = useNavigate();
   useEffect(()=>{
     const fetchdata = async ()=>{
       try {
@@ -16,9 +18,7 @@ const CompanyView = () => {
     };
     fetchdata();
   },[]);
-console.log(company);
 
-  
   return (
     <div className="min-h-screen bg-gray-100">
       <div className="bg-18122B text-white px-6 py-4 flex justify-between items-center">
@@ -38,7 +38,7 @@ console.log(company);
         </div>
       </div>
       <div className="flex justify-center my-4">
-        <button className="bg-393053 text-white px-6 py-2 rounded-full">Add Company</button>
+        <button className="bg-393053 text-white px-6 py-2 rounded-full" onClick={()=>navigate('/addCompany')}>Add Company</button>
       </div>
 
       {/* Grid Section */}
