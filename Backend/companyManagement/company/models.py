@@ -5,7 +5,7 @@ class Company(models.Model):
     companyName = models.CharField(max_length=255)
     companyEmail = models.EmailField()
     companyPhone = PhoneNumberField()
-    conpanyAddress = models.TextField()
+    companyAddress = models.TextField()
     companyLogo = models.ImageField(upload_to='images', blank=True, null=True)
 
     def __str__(self):
