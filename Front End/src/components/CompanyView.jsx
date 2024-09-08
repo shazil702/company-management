@@ -39,6 +39,7 @@ const CompanyView = () => {
           <div className="rounded-full overflow-hidden h-10 w-10">
             <img src={adminImage} alt="HR Profile" />
           </div>
+          <button className='rounded-xl px-4'>Logout</button>
         </div>
       </div>
       <div className="flex justify-center my-4">

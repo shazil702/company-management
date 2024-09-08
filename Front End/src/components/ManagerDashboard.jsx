@@ -1,33 +1,31 @@
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import adminImage from '../assets/images/admin.jpeg'
-import { useNavigate } from 'react-router-dom';
 
-const HrDashboard = () => {
-  const [employees, setEmployees] = useState([]);
-  const navigate = useNavigate();
-
-  useEffect(()=>{
-    const fetchEmployees = async ()=>{
-      try {
-        const response = await axios.get('http://127.0.0.1:8000/hr/employees/',{
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-            },
-        }
-        );
-        setEmployees(response.data);
-        console.log(response.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchEmployees();
-  },[]);
-
+const ManagerDashboard = () => {
+    const [employees, setEmployees] = useState([]);
+    const [department, setDepartment] = useState('');
+    useEffect(()=>{
+        const fetchEmployees = async ()=>{
+          try {
+            const response = await axios.get('http://127.0.0.1:8000/hr/manager/',{
+                headers: {
+                  Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+                },
+            }
+            );
+            setEmployees(response.data);
+            setDepartment(response.data[0].department?.departmentName);
+          } catch (error) {
+            console.log(error);
+          }
+        };
+        fetchEmployees();
+      },[]);
+      
   return (
     <div className="">
-        <div className="bg-18122B text-white px-6 py-4 flex justify-between items-center">
+          <div className="bg-18122B text-white px-6 py-4 flex justify-between items-center">
         <div className="flex items-center">
           <input 
             type="text"
@@ -37,14 +35,14 @@ const HrDashboard = () => {
         </div>
         {/* HR Profile */}
         <div className="flex items-center">
-          <span className="mr-4">Hr</span>
+          <span className="mr-4">Manager</span>
           <div className="rounded-full overflow-hidden h-10 w-10">
             <img src={adminImage} alt="HR Profile" />
           </div>
         </div>
       </div>
       <div className="flex justify-center my-4">
-        <button className="bg-393053 text-white px-6 py-2 rounded-full" onClick={()=>navigate('/addEmployee')}>Add Employee</button>
+       <h1 className='font-bold text-lg'>"{department}" Manager</h1>
       </div>
       <div className="overflow-x-auto">
         <table className="min-w-full bg-gray-100 border border-gray-200">
@@ -54,8 +52,8 @@ const HrDashboard = () => {
               <th className="py-2 px-4">Image</th>
               <th className="py-2 px-4">Name</th>
               <th className="py-2 px-4">Mail</th>
-              <th className="py-2 px-4">Team</th>
-              <th className="py-2 px-4">Joined Date</th>
+              <th className="py-2 px-4">Department</th>
+              <th className="py-2 px-4">Phone</th>
             </tr>
           </thead>
           <tbody>
@@ -78,4 +76,4 @@ const HrDashboard = () => {
   );
 };
 
-export default HrDashboard;
+export default ManagerDashboard;

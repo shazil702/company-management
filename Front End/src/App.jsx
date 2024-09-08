@@ -4,6 +4,9 @@ import Login from './components/Login'
 import Register from './components/Register'
 import AddCompany from './components/AddCompany'
 import HrDashboard from './components/HrDashboard'
+import AddEmployee from './components/AddEmployee'
+import ManagerDashboard from './components/ManagerDashboard'
+import EmployeeProfile from './components/EmployeeProfile'
 
 function App() {
   return (
@@ -14,6 +17,9 @@ function App() {
       <Route path='/admin' element={<CompanyView/>}/>
       <Route path='/addCompany' element={<AddCompany/>}/>
       <Route path='/hr' element={<HrDashboard/>}/>
+      <Route path='/addEmployee' element={<AddEmployee/>}/>
+      <Route path='/manager' element={<ManagerDashboard/>}/>
+      <Route path='/employee' element={<EmployeeProfile/>}/>
       </Routes>
       </BrowserRouter>
   )
