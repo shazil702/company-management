@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const AddCompany = () => {
   const [companyName, setCompanyName] = useState('');
@@ -7,6 +8,7 @@ const AddCompany = () => {
   const [companyPhone, setCompanyPhone] = useState('');
   const [companyAddress, setCompanyAddress] = useState('');
   const [companyLogo, setCompanyLogo] = useState(null);
+  const navigate = useNavigate();
 
   const handleSubmit = async e => {
     e.preventDefault();
@@ -17,13 +19,13 @@ const AddCompany = () => {
     formData.append('companyAddress', companyAddress);
     formData.append('companyLogo', companyLogo);
     try{
-      const response = await axios.post('http://127.0.0.1:8000/company/allCompanies', formData,{
+      const response = await axios.post('http://127.0.0.1:8000/company/allCompanies/', formData,{
         headers:{
           'Authorization': `Bearer ${localStorage.getItem('access_token')}`,
           'Content-Type': 'multipart/form-data',
         },
       });
-      console.log(response.data);
+      navigate('/admin');
     }catch(error){
       console.log(error);
     }

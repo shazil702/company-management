@@ -10,7 +10,7 @@ const AddEmployee = () => {
             email: email,
         };
         try{
-            const {data} = await axios.post('http://127.0.0.1:8000/hr/send_email',mail);
+            const {data} = await axios.post('http://127.0.0.1:8000/hr/send_email/',mail);
             console.log(data);
         }
         catch(error){

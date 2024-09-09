@@ -2,7 +2,7 @@ import { useState } from 'react';
 import adminImage from '../assets/images/admin.jpeg'
 import { useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate,Link } from 'react-router-dom';
 
 const CompanyView = () => {
   const [company, setCompany] = useState([]);
@@ -51,6 +51,7 @@ const CompanyView = () => {
       </div>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-6 px-6 py-4">
         {company.map((company,index) => (
+          <Link to={`/editCompany?id=${company.id}`}>
           <div key={index} className="bg-635985 p-4 rounded-lg shadow-lg text-center">
             <div className="rounded-full overflow-hidden w-24 h-24 mx-auto mb-4">
               <img src={`http://127.0.0.1:8000${company.companyLogo}`} alt="Employee" className="object-cover w-full h-full" />
@@ -58,6 +59,7 @@ const CompanyView = () => {
             <h3 className="text-white text-lg font-semibold">{company.companyName}</h3>
             <p className="text-green-500 mt-2">{company.companyAddress}</p>
           </div>
+          </Link>
         ))}
       </div>
     </div>
