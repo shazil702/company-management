@@ -7,6 +7,7 @@ import HrDashboard from './components/HrDashboard'
 import AddEmployee from './components/AddEmployee'
 import ManagerDashboard from './components/ManagerDashboard'
 import EmployeeProfile from './components/EmployeeProfile'
+import EditCompany from './components/EditCompany'
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
       <Route path='/addEmployee' element={<AddEmployee/>}/>
       <Route path='/manager' element={<ManagerDashboard/>}/>
       <Route path='/employee' element={<EmployeeProfile/>}/>
+      <Route path='/editCompany' element={<EditCompany/>}/>
       </Routes>
       </BrowserRouter>
   )

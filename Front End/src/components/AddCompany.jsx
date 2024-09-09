@@ -31,19 +31,15 @@ const AddCompany = () => {
   return (
     <div className="min-h-screen bg-gray-100 flex justify-center items-center">
     <div className="w-full max-w-6xl bg-white rounded-lg shadow-lg p-8">
-      {/* Header */}
       <h1 className="text-3xl font-semibold text-center text-393053 mb-6">Create Company</h1>
       <form onSubmit={handleSubmit}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Left Side - Company Details */}
           <div className="space-y-4">
-            {/* Company Logo */}
             <div className="flex flex-col items-center">
               <label htmlFor="logo" className="text-18122B font-semibold mb-2">
                 Company Logo
               </label>
               <div className="relative w-32 h-32 bg-gray-300 rounded-full flex items-center justify-center overflow-hidden">
-                {/* Display image */}
                 {companyLogo ? (
                   <img
                     src={URL.createObjectURL(companyLogo)}
@@ -53,7 +49,6 @@ const AddCompany = () => {
                 ) : (
                   <span className="text-gray-500">No logo</span>
                 )}
-                {/* Company Logo Input */}
                 <input
                   type="file"
                   id="logo"
@@ -62,9 +57,7 @@ const AddCompany = () => {
                   onChange={(e) => setCompanyLogo(e.target.files[0])}
                 />
               </div>
-            </div>
-  
-            {/* Company Name */}
+            </div>  
             <div>
               <label
                 htmlFor="company-name"
@@ -81,9 +74,7 @@ const AddCompany = () => {
                 onChange={(e) => setCompanyName(e.target.value)}
                 required
               />
-            </div>
-  
-            {/* Address */}
+            </div>  
             <div>
               <label
                 htmlFor="address"
@@ -101,11 +92,8 @@ const AddCompany = () => {
                 required
               />
             </div>
-          </div>
-  
-          {/* Right Side - Contact Details */}
+          </div>  
           <div className="space-y-4">
-            {/* Contact Number */}
             <div>
               <label
                 htmlFor="contact-number"
@@ -122,9 +110,7 @@ const AddCompany = () => {
                 value={companyPhone}
                 onChange={(e) => setCompanyPhone(e.target.value)}
               />
-            </div>
-  
-            {/* Email */}
+            </div>  
             <div>
               <label
                 htmlFor="email"
@@ -141,9 +127,7 @@ const AddCompany = () => {
                 onChange={(e) => setCompanyEmail(e.target.value)}
                 required
               />
-            </div>
-  
-            {/* Save/Cancel Buttons */}
+            </div>  
             <div className="flex justify-end space-x-4">
               <button
                 type="button"
@@ -163,7 +147,6 @@ const AddCompany = () => {
       </form>
     </div>
   </div>
-  
   );
 };
 

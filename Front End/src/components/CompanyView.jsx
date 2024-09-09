@@ -38,7 +38,6 @@ const CompanyView = () => {
             className="ml-4 bg-EEEEEE text-393053 px-4 py-2 rounded-full focus:outline-none"
           />
         </div>
-        {/* HR Profile */}
         <div className="flex items-center">
           <span className="mr-4">Admin</span>
           <div className="rounded-full overflow-hidden h-10 w-10">
@@ -50,10 +49,7 @@ const CompanyView = () => {
       <div className="flex justify-center my-4">
         <button className="bg-393053 text-white px-6 py-2 rounded-full" onClick={()=>navigate('/addCompany')}>Add Company</button>
       </div>
-
-      {/* Grid Section */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-6 px-6 py-4">
-        {/* Card Template */}
         {company.map((company,index) => (
           <div key={index} className="bg-635985 p-4 rounded-lg shadow-lg text-center">
             <div className="rounded-full overflow-hidden w-24 h-24 mx-auto mb-4">
