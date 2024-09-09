@@ -22,7 +22,13 @@ const Login = () => {
                      }
                      else if (response.data.role === 'hr') {
                        navigate('/hr');
-                     } 
+                     }
+                     else if (response.data.role === 'manager') {
+                       navigate('/manager');
+                     }
+                     else if (response.data.role === 'employee') {
+                       navigate('/employee');
+                     }
                    } catch (error) {
                      console.log(error);
                    }
