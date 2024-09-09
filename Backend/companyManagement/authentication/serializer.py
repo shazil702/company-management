@@ -1,11 +1,19 @@
 from rest_framework import serializers
-from .models import User
+from .models import User, Department
+
+class DepartmentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Department
+        fields = '__all__'
 
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=True)
+    department = DepartmentSerializer(read_only=True)
+    department_id = serializers.PrimaryKeyRelatedField(queryset=Department.objects.all(), required=False)
+
     class Meta:
         model = User
-        fields = ['email', 'username', 'password', 'phone', 'is_superuser', 'is_hr', 'is_manager', 'is_employee']
+        fields = ['email', 'username', 'password', 'phone', 'is_superuser', 'is_hr', 'is_manager', 'is_employee', 'department', 'department_id']
 
     def create(self, validated):
         if validated.get('is_hr', False) or validated.get('is_superuser', False) or validated.get('is_manager', False):
@@ -22,4 +30,4 @@ class RegisterSerializer(serializers.ModelSerializer):
         user.set_password(validated['password'])
         user.save()
         return user
-        
+

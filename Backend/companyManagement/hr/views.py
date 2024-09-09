@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.db.models import Q
 from rest_framework.permissions import IsAuthenticated
-from authentication.permissions import IsHR
+from authentication.permissions import IsHR, IsManager, IsEmployee
 from django.core.mail import send_mail
 from companyManagement import settings
 
@@ -27,3 +27,20 @@ class SendFormView(APIView):
             return Response({'message': 'Mail sent successfully'}, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        
+class ManagerView(APIView):
+    permission_classes = (IsAuthenticated, IsManager,)
+    def get(self, request):
+        manager_department = request.user.department
+        employees = User.objects.filter(department=manager_department, is_employee=True)
+        serializer = UserSerizlizer(employees, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+        
+class EmployeeDetailView(APIView):
+    permission_classes = (IsAuthenticated, IsEmployee,)
+    def get(self, request):
+        employee_id = request.user.id
+        employee = User.objects.get(id=employee_id)
+        serializer = UserSerizlizer(employee)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
