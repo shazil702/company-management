@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import adminImage from '../assets/images/admin.jpeg'
+import { useNavigate } from 'react-router-dom';
 
 const ManagerDashboard = () => {
     const [employees, setEmployees] = useState([]);
     const [department, setDepartment] = useState('');
+    const navigate = useNavigate();
     useEffect(()=>{
         const fetchEmployees = async ()=>{
           try {
@@ -22,6 +24,11 @@ const ManagerDashboard = () => {
         };
         fetchEmployees();
       },[]);
+
+      const logout = () => {
+        localStorage.clear();
+        navigate('/');
+      }
       
   return (
     <div className="">
@@ -39,6 +46,7 @@ const ManagerDashboard = () => {
           <div className="rounded-full overflow-hidden h-10 w-10">
             <img src={adminImage} alt="HR Profile" />
           </div>
+          <button className='rounded-xl px-4' onClick={logout}>Logout</button>
         </div>
       </div>
       <div className="flex justify-center my-4">

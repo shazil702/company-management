@@ -25,6 +25,11 @@ const HrDashboard = () => {
     fetchEmployees();
   },[]);
 
+  const logout = () => {
+    localStorage.clear();
+    navigate('/');
+  }
+
   return (
     <div className="">
         <div className="bg-18122B text-white px-6 py-4 flex justify-between items-center">
@@ -41,6 +46,7 @@ const HrDashboard = () => {
           <div className="rounded-full overflow-hidden h-10 w-10">
             <img src={adminImage} alt="HR Profile" />
           </div>
+      <button className='rounded-xl px-4' onClick={logout}>Logout</button>
         </div>
       </div>
       <div className="flex justify-center my-4">

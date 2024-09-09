@@ -1,8 +1,11 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const EmployeeProfile = () => {
     const [employee, setEmployee] = useState([]);
+    const navigate = useNavigate();
+    
     useEffect(()=>{
         const fetchEmployee = async ()=>{
           try {
@@ -20,7 +23,10 @@ const EmployeeProfile = () => {
         };
         fetchEmployee();
       },[]);
-  
+      const logout = () => {
+        localStorage.clear();
+        navigate('/');
+      }
     return (
         <div className="min-h-screen bg-[#393053] flex justify-center items-center">
   <div className="bg-[#18122B] w-2/3 p-8 rounded-lg shadow-lg">
@@ -68,12 +74,10 @@ const EmployeeProfile = () => {
         </p>
       </div>
     </div>
-
-    {/* Logout Button */}
     <div className="mt-8 text-center">
       <button
-         // Assuming you have a logout function
         className="bg-[#635985] text-white py-2 px-6 rounded-md hover:bg-[#524370] transition"
+        onClick={logout}
       >
         Logout
       </button>
