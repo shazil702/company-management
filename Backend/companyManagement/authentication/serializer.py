@@ -13,7 +13,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['email', 'username', 'password', 'phone', 'is_superuser', 'is_hr', 'is_manager', 'is_employee', 'department', 'department_id']
+        fields = ['email', 'username', 'password', 'phone', 'is_superuser', 'is_hr', 'is_manager', 'is_employee', 'department', 'department_id', 'image']
 
     def create(self, validated):
         if validated.get('is_hr', False) or validated.get('is_superuser', False) or validated.get('is_manager', False):
@@ -26,7 +26,9 @@ class RegisterSerializer(serializers.ModelSerializer):
                                    is_superuser=validated.get('is_superuser', False),
                                    is_hr=validated.get('is_hr', False),
                                    is_manager=validated.get('is_manager', False),
-                                   is_employee=validated['is_employee'])
+                                   is_employee=validated['is_employee'],
+                                   department=validated.get('department_id'),
+                                   image=validated.get('image'))
         user.set_password(validated['password'])
         user.save()
         return user

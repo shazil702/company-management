@@ -6,12 +6,16 @@ from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.views import APIView
 from django.contrib.auth import authenticate
+from rest_framework.parsers import MultiPartParser, FormParser
+
 
 class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
+    parser_classes = (MultiPartParser, FormParser)
     permission_classes = (AllowAny,)
     serializer_class = RegisterSerializer
     def post(self, request, *args, **kwargs):
+        print(request.data)
         email = request.data['email']
         if User.objects.filter(email=email).exists():
             return Response({'message':'Email already exists'}, status=status.HTTP_400_BAD_REQUEST)
