@@ -8,7 +8,8 @@ import AddEmployee from './components/AddEmployee'
 import ManagerDashboard from './components/ManagerDashboard'
 import EmployeeProfile from './components/EmployeeProfile'
 import EditCompany from './components/EditCompany'
-import Example from './components/chart'
+import Graph from './components/chart'
+import Attendance from './components/Attendance'
 
 function App() {
   return (
@@ -23,7 +24,8 @@ function App() {
       <Route path='/manager' element={<ManagerDashboard/>}/>
       <Route path='/employee' element={<EmployeeProfile/>}/>
       <Route path='/editCompany' element={<EditCompany/>}/>
-      <Route path='chart' element={<Example/>}/>
+      <Route path='chart' element={<Graph/>}/>
+      <Route path='attendance' element={<Attendance/>}/>
       </Routes>
       </BrowserRouter>
   )

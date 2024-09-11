@@ -67,6 +67,7 @@ class LoginView(APIView):
                         'message': 'Manager authentication successful',
                         'access_token': access_token,
                         'refresh_token': refresh_token,
+                        'id' : user.id,
                         'role':'manager'
                     }, status=status.HTTP_200_OK)
                 else:

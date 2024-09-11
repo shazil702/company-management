@@ -6,7 +6,44 @@ import { useNavigate } from 'react-router-dom';
 const ManagerDashboard = () => {
     const [employees, setEmployees] = useState([]);
     const [department, setDepartment] = useState('');
+    const [clockIn, setClockIn] = useState('');
+    const [clockOut, setClockOut] = useState('');
+    const [clockButton, setClockButton] = useState('Clock In');
+    const date = new Date().toISOString().split('T')[0];
     const navigate = useNavigate();
+
+    const handleClockIn = async () => {
+      const formatTimeWithMicroseconds = (date) => {
+        return date.toISOString().slice(11, 23);
+      };
+    
+      if (clockButton === 'Clock In') {
+        const clockInTime = formatTimeWithMicroseconds(new Date());
+        setClockIn(clockInTime);
+        localStorage.setItem('clockIn', clockInTime);
+        setClockButton('Clock Out');
+      } else if (clockButton === 'Clock Out') {
+        const clockOutTime = formatTimeWithMicroseconds(new Date());
+        setClockOut(clockOutTime);
+    
+        try {
+          const response = await axios.post('http://127.0.0.1:8000/hr/add_attendance/', {
+            employee_id: localStorage.getItem('id'),
+            clock_in: localStorage.getItem('clockIn'),
+            clock_out: clockOutTime,
+            date: new Date().toISOString().slice(0, 10), 
+          }, {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+            },
+          });
+          console.log(response.data);
+          localStorage.removeItem('clockIn');
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    };
     useEffect(()=>{
         const fetchEmployees = async ()=>{
           try {
@@ -40,7 +77,6 @@ const ManagerDashboard = () => {
             className="ml-4 bg-EEEEEE text-393053 px-4 py-2 rounded-full focus:outline-none"
           />
         </div>
-        {/* HR Profile */}
         <div className="flex items-center">
           <span className="mr-4">Manager</span>
           <div className="rounded-full overflow-hidden h-10 w-10">
@@ -51,6 +87,10 @@ const ManagerDashboard = () => {
       </div>
       <div className="flex justify-center my-4">
        <h1 className='font-bold text-lg'>"{department}" Manager</h1>
+       <button onClick={handleClockIn}
+    className="bg-393053 text-white px-4 py-2 mx-6 rounded-md hover:bg-635985 focus:outline-none focus:ring-2 focus:ring-393053 focus:ring-opacity-50">
+    {clockButton}
+  </button>
       </div>
       <div className="overflow-x-auto">
         <table className="min-w-full bg-gray-100 border border-gray-200">

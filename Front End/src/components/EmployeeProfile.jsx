@@ -9,7 +9,7 @@ const EmployeeProfile = () => {
     const [clockButton, setClockButton] = useState('Clock In');
     const navigate = useNavigate();
     const date = new Date().toISOString().split('T')[0];
-    
+
     const handleClockIn = async () => {
       const formatTimeWithMicroseconds = (date) => {
         return date.toISOString().slice(11, 23); // 'hh:mm:ss.uuu' format
@@ -18,7 +18,7 @@ const EmployeeProfile = () => {
       if (clockButton === 'Clock In') {
         const clockInTime = formatTimeWithMicroseconds(new Date());
         setClockIn(clockInTime);
-        localStorage.setItem('clockIn', clockInTime); // Store clockIn directly in localStorage
+        localStorage.setItem('clockIn', clockInTime);
         setClockButton('Clock Out');
       } else if (clockButton === 'Clock Out') {
         const clockOutTime = formatTimeWithMicroseconds(new Date());
@@ -27,16 +27,16 @@ const EmployeeProfile = () => {
         try {
           const response = await axios.post('http://127.0.0.1:8000/hr/add_attendance/', {
             employee_id: employee.id,
-            clock_in: localStorage.getItem('clockIn'), // Get clockIn from localStorage
+            clock_in: localStorage.getItem('clockIn'),
             clock_out: clockOutTime,
-            date: new Date().toISOString().slice(0, 10), // 'YYYY-MM-DD' format for the date
+            date: new Date().toISOString().slice(0, 10),
           }, {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('access_token')}`,
             },
           });
           console.log(response.data);
-          localStorage.removeItem('clockIn'); // Fix typo (removeItemK -> removeItem)
+          localStorage.removeItem('clockIn');
         } catch (error) {
           console.log(error);
         }

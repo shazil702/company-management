@@ -5,10 +5,11 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.db.models import Q
 from rest_framework.permissions import IsAuthenticated
-from authentication.permissions import IsHR, IsManager, IsEmployee
+from authentication.permissions import IsHR, IsManager, IsEmployee, IsEmployeeOrManager
 from django.core.mail import send_mail
 from companyManagement import settings
 from .models import Attendance
+from datetime import date, timedelta
 
 class EmployeeView(APIView):
     permission_classes = (IsAuthenticated, IsHR,)
@@ -46,7 +47,7 @@ class EmployeeDetailView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
     
 class AddAttendanceView(APIView):
-    permission_classes = (IsAuthenticated, IsEmployee,)
+    permission_classes = (IsAuthenticated, IsEmployeeOrManager,)
     def post(self, request):
         print(request.data)
         serializer = AttendanceSerializer(data=request.data)
@@ -54,4 +55,36 @@ class AddAttendanceView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class AttendanceListView(APIView):
+    permission_classes = (IsAuthenticated, IsHR,)
+    def get(self, request):
+        try:
+            current_date = date.today()
+            start_date = current_date - timedelta(days=7)
+            attendances = Attendance.objects.filter(date__range=(start_date, current_date))
+            attendance_by_date = {}
+            for attendance in attendances:
+                day = attendance.date.strftime("%Y-%m-%d")
+                if day not in attendance_by_date:
+                    attendance_by_date[day] = []
+                attendance_by_date[day].append({
+                    'employee': str(attendance.employee),
+                    'clock_in': attendance.clock_in,
+                    'clock_out': attendance.clock_out,
+                })
+            return Response(attendance_by_date, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+    def post(self, request):
+        try:
+            user_date = request.data.get('date')
+            print(user_date)
+            attendances = Attendance.objects.filter(date=user_date)
+            serializer = AttendanceSerializer(attendances, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        
+
 

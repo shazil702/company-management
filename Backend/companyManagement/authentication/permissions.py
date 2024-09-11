@@ -23,3 +23,9 @@ class IsManager(permissions.BasePermission):
         if request.user and request.user.is_authenticated:
             return request.user and request.user.is_manager
         return False
+
+class IsEmployeeOrManager(permissions.BasePermission):
+    def has_permission(self, request, view):
+        if request.user and request.user.is_authenticated:
+            return request.user.is_employee or request.user.is_manager
+        return False

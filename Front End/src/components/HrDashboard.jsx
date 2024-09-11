@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import adminImage from '../assets/images/admin.jpeg'
 import { useNavigate } from 'react-router-dom';
-import Example from './chart';
+import Graph from './chart';
 
 const HrDashboard = () => {
   const [employees, setEmployees] = useState([]);
@@ -49,9 +49,10 @@ const HrDashboard = () => {
       <button className='rounded-xl px-4' onClick={logout}>Logout</button>
         </div>
       </div>
-      <Example/>
+      <Graph/>
       <div className="flex justify-center my-4">
         <button className="bg-393053 text-white px-6 py-2 rounded-full" onClick={()=>navigate('/addEmployee')}>Add Employee</button>
+        <button className="bg-393053 text-white px-6 py-2 rounded-full mx-4" onClick={()=>navigate('/attendance')}>Attendance</button>
       </div>
       <div className="overflow-x-auto">
         <table className="min-w-full bg-gray-100 border border-gray-200">

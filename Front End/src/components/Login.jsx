@@ -24,6 +24,7 @@ const Login = () => {
                        navigate('/hr');
                      }
                      else if (response.data.role === 'manager') {
+                      localStorage.setItem('id', response.data.id);
                        navigate('/manager');
                      }
                      else if (response.data.role === 'employee') {
