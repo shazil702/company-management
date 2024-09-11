@@ -4,7 +4,46 @@ import { useNavigate } from "react-router-dom";
 
 const EmployeeProfile = () => {
     const [employee, setEmployee] = useState([]);
+    const [clockIn, setClockIn] = useState('');
+    const [clockOut, setClockOut] = useState('');
+    const [clockButton, setClockButton] = useState('Clock In');
     const navigate = useNavigate();
+    const date = new Date().toISOString().split('T')[0];
+    
+    const handleClockIn = async () => {
+      const formatTimeWithMicroseconds = (date) => {
+        return date.toISOString().slice(11, 23); // 'hh:mm:ss.uuu' format
+      };
+    
+      if (clockButton === 'Clock In') {
+        const clockInTime = formatTimeWithMicroseconds(new Date());
+        setClockIn(clockInTime);
+        localStorage.setItem('clockIn', clockInTime); // Store clockIn directly in localStorage
+        setClockButton('Clock Out');
+      } else if (clockButton === 'Clock Out') {
+        const clockOutTime = formatTimeWithMicroseconds(new Date());
+        setClockOut(clockOutTime);
+    
+        try {
+          const response = await axios.post('http://127.0.0.1:8000/hr/add_attendance/', {
+            employee_id: employee.id,
+            clock_in: localStorage.getItem('clockIn'), // Get clockIn from localStorage
+            clock_out: clockOutTime,
+            date: new Date().toISOString().slice(0, 10), // 'YYYY-MM-DD' format for the date
+          }, {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+            },
+          });
+          console.log(response.data);
+          localStorage.removeItem('clockIn'); // Fix typo (removeItemK -> removeItem)
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    };
+    
+    console.log(clockIn);
     
     useEffect(()=>{
         const fetchEmployee = async ()=>{
@@ -30,6 +69,14 @@ const EmployeeProfile = () => {
     return (
         <div className="min-h-screen bg-[#393053] flex justify-center items-center">
   <div className="bg-[#18122B] w-2/3 p-8 rounded-lg shadow-lg">
+  <div className="absolute top-4 right-4">
+      <button
+        className="bg-[#635985] text-white py-2 px-6 rounded-md hover:bg-[#524370] transition"
+        onClick={handleClockIn}
+      >
+        {clockButton}
+      </button>
+    </div>
     <h1 className="text-2xl font-bold text-[#EEEEEE] mb-6 text-center">
       Employee Profile
     </h1>

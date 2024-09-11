@@ -1,6 +1,6 @@
 from rest_framework.views import APIView
 from authentication.models import User
-from .serializer import UserSerizlizer
+from .serializer import UserSerizlizer, AttendanceSerializer
 from rest_framework.response import Response
 from rest_framework import status
 from django.db.models import Q
@@ -8,6 +8,7 @@ from rest_framework.permissions import IsAuthenticated
 from authentication.permissions import IsHR, IsManager, IsEmployee
 from django.core.mail import send_mail
 from companyManagement import settings
+from .models import Attendance
 
 class EmployeeView(APIView):
     permission_classes = (IsAuthenticated, IsHR,)
@@ -43,4 +44,14 @@ class EmployeeDetailView(APIView):
         employee = User.objects.get(id=employee_id)
         serializer = UserSerizlizer(employee)
         return Response(serializer.data, status=status.HTTP_200_OK)
+    
+class AddAttendanceView(APIView):
+    permission_classes = (IsAuthenticated, IsEmployee,)
+    def post(self, request):
+        print(request.data)
+        serializer = AttendanceSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

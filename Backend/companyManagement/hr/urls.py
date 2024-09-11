@@ -6,4 +6,5 @@ urlpatterns = [
     path('send_email/', views.SendFormView.as_view()),
     path('manager/', views.ManagerView.as_view()),
     path('employee_detail/', views.EmployeeDetailView.as_view()),
+    path('add_attendance/', views.AddAttendanceView.as_view()),
 ]

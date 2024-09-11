@@ -6,3 +6,6 @@ class Attendance(models.Model):
     date = models.DateField()
     clock_in = models.TimeField()
     clock_out = models.TimeField(null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.employee} - {self.date}"
